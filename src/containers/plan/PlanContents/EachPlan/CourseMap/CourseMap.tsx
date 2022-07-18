@@ -57,6 +57,7 @@ const CourseMap = () => {
                                     position={position}
                                     name={placeDetail.name}
                                     img={placeDetail.imgUrl ?? jeju}
+                                    index={index}
                                     color={theme.USER_PLAN_COLOR[index]}
                                 />
                                 <PlacePolyline

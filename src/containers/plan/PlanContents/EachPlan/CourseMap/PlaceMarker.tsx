@@ -9,6 +9,7 @@ import React, {
 import ReactDOM from 'react-dom';
 import { AbstractOverlay, useMap } from 'react-kakao-maps-sdk';
 import styled from 'styled-components';
+import CustomMarker from 'components/CustomMarker';
 
 type Latlng = { lat: number; lng: number };
 type node = { x: number; y: number };
@@ -17,11 +18,12 @@ type Props = {
     position: Latlng;
     name: string;
     img: string;
+    index: number;
     color: string;
 };
 
 // eslint-disable-next-line react/function-component-definition
-function TooltipMarker({ position, name, img, color }: Props) {
+function TooltipMarker({ position, name, img, index, color }: Props) {
     const map = useMap();
     const node = useRef(document.createElement('div'));
     const [visible, setVisible] = useState(false);
@@ -83,23 +85,38 @@ function TooltipMarker({ position, name, img, color }: Props) {
 
     // eslint-disable-next-line react/no-unstable-nested-components
     const Marker = () => {
+        const [isOpen, setIsOpen] = useState(false);
         return (
             // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
-            <PlaceNode
-                color={color}
-                onClick={() => {
-                    map.setCenter(positionLatlng);
-                    map.setLevel(3);
-                }}
-            >
-                <img
-                    src={
-                        img ??
-                        'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/sign-info-64.png'
-                    }
-                    alt={name}
-                />
-            </PlaceNode>
+            <MarkerContainer>
+                {isOpen && (
+                    <MarkerInfoBox>
+                        <img
+                            src={
+                                img ??
+                                'https:1.daumcdn.net/localimg/localimages/07/mapapidoc/sign-info-64.png'
+                            }
+                            alt={name}
+                        />
+                        <p className="place">{name ?? '제목'}</p>
+                    </MarkerInfoBox>
+                )}
+                <MarkerIcon
+                    color={color}
+                    onClick={() => {
+                        setIsOpen((f) => !f);
+                        map.setCenter(positionLatlng);
+                        map.setLevel(3);
+                    }}
+                >
+                    <CustomMarker
+                        size={30}
+                        border={20}
+                        color={color}
+                        text={index + 1}
+                    />
+                </MarkerIcon>
+            </MarkerContainer>
         );
     };
 
@@ -424,37 +441,55 @@ const PlaceTracker = styled.div<{ url: string }>`
     }
 `;
 
-const PlaceNode = styled.div`
-    -webkit-user-select:none;
-    -moz-user-select:none;
-    -ms-user-select:none;
-    -user-select:none
-    width: 52px;
-    height: 52px
-    position: absolute;
-    cursor: pointer;
-    background: ${({ color }) => (color ? `${color}99` : 'white')};
-    border-radius: 5px;
-    box-sizing: border-box;
-    text-algin: center;
-    margin-bottom: 62px;
-    box-shadow: .1rem .1rem .6rem #3d3d3d;
+const MarkerContainer = styled.div`
+    width: 220px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 170px;
+`;
 
-    :after{
-        content: '';
-        position: absolute;
-        border-top: 10px solid ${({ color }) =>
-            color ? `${color}99` : 'white'};
-        border-right: 5px solid transparent;
-        border-left: 5px solid transparent;
-        left: calc(50% - 5px);
-        box-sizing: border-box;
-    }
+const MarkerInfoBox = styled.div`
+    width: 100%;
+    height: 75px;
+    margin-bottom: 6px;
+    background: white;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
 
-    
+    border-radius: 50px;
+    box-shadow: 0.1rem 0.1rem 0.6rem #3d3d3d;
 
     & > img {
-        display: block;
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+        margin-left: 10px;
+    }
+    & > p.place {
+        width: 110px;
+        height: max-content;
+        text-align: center;
+        word-wrap: break-word;
+        line-height: normal;
+        margin-left: 10px;
+        font-size: 18px;
+        white-space: normal;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+`;
+
+const MarkerIcon = styled.div`
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -user-select: none;
+    & > img {
+        display: absolute;
         width: 40px;
         height: 40px;
         padding: 3px 7px;

@@ -4,6 +4,7 @@ import { RootState } from 'store/modules';
 import styled from 'styled-components';
 import { theme } from 'styles/theme';
 import { setDistanceText } from 'utils/mapPointHelper';
+import CustomMarker from 'components/CustomMarker';
 
 const planListSelector = (state: RootState) => state.plan.planList;
 const setDaySelector = (state: RootState) => state.plan.setDay;
@@ -24,13 +25,12 @@ const ShowDistance: FC = () => {
             {planListLength > 0 &&
                 [...new Array(planListLength)].map((value, index) => (
                     <LocationPointBox key={`${setDay}-${placeDistance[index]}`}>
-                        <PlacePicker
+                        <CustomMarker
                             size={32}
                             border={20}
                             color={theme.USER_PLAN_COLOR[index]}
-                        >
-                            <div>{index + 1}</div>
-                        </PlacePicker>
+                            text={index + 1}
+                        />
                         {index < planListLength - 1 && (
                             <DistanceLine>
                                 <DistanceText>
@@ -46,51 +46,13 @@ const ShowDistance: FC = () => {
 
 const Container = styled.div`
     padding-top: 15px;
-    
+
     width: 80px;
     margin-left: 40px;
 `;
 const LocationPointBox = styled.div`
     width: 70%;
     height: 115px;
-`;
-
-const PlacePicker = styled.div<{ size: number; border: number; color: string }>`
-    width: ${({ size }) => size}px;
-    height: ${({ size }) => size}px;
-    background: ${({ color }) => color};
-    border-radius: 50%;
-    margin: 0 auto;
-    z-index: 4;
-    box-sizing: border-box;
-    position: relative;
-
-    :before {
-        content: '';
-        position: absolute;
-        border-top: ${({ size }) => (size / 4) * 3}px solid
-            ${({ color }) => color};
-        border-right: ${({ size }) => size / 2 - 1}px solid transparent;
-        border-left: ${({ size }) => size / 2 - 1}px solid transparent;
-        left: calc(50% - ${({ size }) => size / 2 - 1}px);
-        box-sizing: border-box;
-
-        bottom: -${({ size }) => (size / 4) * 2 - 2}px;
-        z-index: 2;
-    }
-    & > div {
-        display: inline-block;
-        width: ${({ border }) => border}px;
-        height: ${({ border }) => border}px;
-        border-radius: 50%;
-        position: absolute;
-        left: calc(50% - ${({ border }) => border / 2}px);
-        top: calc(50% - ${({ border }) => border / 2}px);
-        z-index: 5;
-        background: white;
-        text-align: center;
-        vertical-align: middle;
-    }
 `;
 
 const DistanceLine = styled.div`

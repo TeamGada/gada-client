@@ -1,24 +1,27 @@
-stages:
-  - build
-  - deploy
+image: node
 
 build:
-  image: node:latest   
   stage: build
+  cache:
+    paths:
+      - node_modules/
   script:
-    - yarn install     
-    - yarn build
+    - npm install
+    - npm run build
   artifacts:
     paths:
-      - build/        
+      - build
+
 pages:
-  image: alpine:latest
   stage: deploy
-  variables:
-    GIT_STRATEGY: none   
+  dependencies: 
+    - build
   script:
-    # Rename the CRA `build` folder to `public`
-    - mv build public         
+    - rm -rf public
+    - cp build/index.html build/404.html
+    - mv build public
   artifacts:
     paths:
-      -  feature/pipeline
+      - public
+  only:
+    -  feature/pipeline

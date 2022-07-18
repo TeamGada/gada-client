@@ -1,12 +1,25 @@
-image: node:latest
-pages:
-  script:
-  - yarn install
-  - yarn build
-  - mv public _public
-  - mv build public
-  artifacts:
-    paths:
-    - public
-  only:
-  -  pages
+stages:
+    - build
+    - deploy
+build:
+    stage: build
+    script:
+        - echo "Building deploy package"
+        - yarn install
+        - yarn build
+        - echo "Build successful"
+    artifacts:
+        expire_in: 1 hour
+        paths:
+            - build
+deploy_production:
+    stage: deploy
+    script:
+        - echo "Deploying to server"
+        - cp -rv build/* /var/www/html/<destination_folder>/
+        - echo "Deployed"
+    environment:
+        name: production
+        url:
+    only:
+        - feature/pipeline

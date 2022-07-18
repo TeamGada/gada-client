@@ -1,25 +1,15 @@
 stages:
-    - build
-    - deploy
+  - build
+
 build:
-    stage: build
-    script:
-        - echo "Building deploy package"
-        - yarn install
-        - yarn build
-        - echo "Build successful"
-    artifacts:
-        expire_in: 1 hour
-        paths:
-            - build
-deploy_production:
-    stage: deploy
-    script:
-        - echo "Deploying to server"
-        - cp -rv build/* /var/www/html/<destination_folder>/
-        - echo "Deployed"
-    environment:
-        name: production
-        url:
-    only:
-        - feature/pipeline
+  image: node:latest    
+  stage: build
+  variables: 
+    # Replace this with your site URL
+    PUBLIC_URL: https://kdt-gitlab.elice.io/gada-client/  
+  script:
+    - yarn install      
+    - yarn build
+  artifacts:
+    paths:
+      - build/      

@@ -1,16 +1,24 @@
-stages: 
-    -deploy
+stages:
+  - build
+  - deploy
 
 build:
-    image: node:latest
-    stage: deploy
-    cache:
-        paths: -node_modules/
-    script:
-        - yarn add gulp -g
-        - yarn
-        - GENERATE_SOURCEMAP = false gulp build
-        - mv dist pulic
-    artifacts:
-        paths:
-            - public
+  image: node:latest   
+  stage: build
+  script:
+    - yarn install     
+    - yarn build
+  artifacts:
+    paths:
+      - build/        
+pages:
+  image: alpine:latest
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none   
+  script:
+    # Rename the CRA `build` folder to `public`
+    - mv build public         
+  artifacts:
+    paths:
+      -  feature/develop-pipeline

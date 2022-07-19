@@ -21,4 +21,4 @@ pages:
     - mv build public         
   artifacts:
     paths:
-      -  feature/pipeline
+      -  pulbic/

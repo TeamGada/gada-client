@@ -17,7 +17,9 @@ pages:
   variables:
     GIT_STRATEGY: none   
   script:
-  - mv build public   
+  - mkdir .public
+  - cp -r * .public
+  - mv .public public
   artifacts:
     paths:
       - pulbic

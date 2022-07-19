@@ -7,7 +7,7 @@ build:
   stage: build
   script:
     - yarn install     
-    - yarn build
+    - CI=false && GENERATE_SOURCEMAP=false && yarn build
   artifacts:
     paths:
       - build/        

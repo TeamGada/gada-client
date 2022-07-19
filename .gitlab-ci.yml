@@ -1,12 +1,27 @@
-stages:
-  - build
+image: node
 
 build:
-  image: node:latest    
   stage: build
-  variables: 
-    # Replace this with your site URL
-    PUBLIC_URL: https://kdt-gitlab.elice.io/gada-client/  
+  cache:
+    paths:
+      - node_modules/
   script:
-    - yarn install      
-    - yarn build
+    - npm install
+    - npm run build
+  artifacts:
+    paths:
+      - build
+
+pages:
+  stage: deploy
+  dependencies: 
+    - build
+  script:
+    - rm -rf public
+    - cp build/index.html build/404.html
+    - mv build public
+  artifacts:
+    paths:
+      - public
+  only:
+    -  feature/pipeline

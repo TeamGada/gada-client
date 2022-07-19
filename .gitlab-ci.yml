@@ -17,8 +17,9 @@ pages:
   variables:
     GIT_STRATEGY: none   
   script:
-    # Rename the CRA `build` folder to `public`
-    - mv build public         
+  - mkdir .public
+  - cp -r * .public
+  - mv .public public          
   artifacts:
     paths:
       -  pulbic

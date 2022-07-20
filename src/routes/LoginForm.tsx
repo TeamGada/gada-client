@@ -1,16 +1,12 @@
 import React from "react";
 import styled from 'styled-components';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'store/modules';
-import { changeOpenState, changeModalName } from 'store/modules/modal';
 import { useNavigate } from 'react-router-dom';
-
-const ModalSelector = (state: RootState) => state.modal
+import useModal from 'hooks/useModal';
 
 const LoginForm = () => {
-    const dispatch = useDispatch();
-    const { modalIsOpen } = useSelector(ModalSelector);
+    const registerClickHandler = useModal("EmailAuthModal");
+    const findPasswordClickHandler = useModal("FindPasswordModal");
     const navigate = useNavigate();
 
     const handleSubmit = (e: any) => {
@@ -36,16 +32,6 @@ const LoginForm = () => {
                     alert(err.response.data.message);
                 })
         }
-    }
-    
-    const registerClickHandler = () => {
-        dispatch(changeModalName("EmailAuthModal"));
-        dispatch(changeOpenState(!modalIsOpen));
-    }
-
-    const findPasswordClickHandler = () => {
-        dispatch(changeModalName("FindPasswordModal"));
-        dispatch(changeOpenState(!modalIsOpen));
     }
 
     return (

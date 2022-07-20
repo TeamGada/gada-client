@@ -1,28 +1,15 @@
 import React, { FC } from 'react';
 import styled from 'styled-components';
-import dragImg from 'images/drag2.png';
+import useModal from 'hooks/useModal';
 import SelectedPlaceOption from 'containers/plan/PlaceOptionMaker/SelectedPlaceOption';
-import { useDispatch, useSelector } from 'react-redux';
-import { changeOpenState, changeModalName } from 'store/modules/modal';
-import { RootState } from 'store/modules';
 import { AddLocationIcon } from 'components/icons';
 
-const ModalSelector = (state: RootState) => state.modal;
-
 const OptionMaker: FC = () => {
-    const { modalIsOpen } = useSelector(ModalSelector);
-    const dispatch = useDispatch();
-
-    const handleClick = () => {
-        dispatch(changeModalName('PlanOptionModal'));
-        dispatch(changeOpenState(!modalIsOpen));
-    };
+    const openModal = useModal("PlanOptionModal");
 
     return (
         <Container>
-            <img className="drag-explanation" src={dragImg} 
-            alt="drag" />
-            <AddOptionButton onClick={handleClick}>
+            <AddOptionButton onClick={openModal}>
                 <AddLocationIconWrapper />
                 장소 추가
             </AddOptionButton>

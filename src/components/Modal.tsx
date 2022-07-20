@@ -8,6 +8,7 @@ import { changeOpenState } from 'store/modules/modal';
 interface ModalDefaultType {
     width: number;
     height: number;
+    cancelButton?: boolean;
 }
 
 const ModalSelector = (state: RootState) => state.modal
@@ -15,11 +16,12 @@ const ModalSelector = (state: RootState) => state.modal
 const Modal = ({
     width,
     height,
+    cancelButton,
     children,
 }: PropsWithChildren<ModalDefaultType>) => {
     const { modalIsOpen } = useSelector(ModalSelector);
     const dispatch = useDispatch();
-
+    
     // click 이벤트 핸들러 - 모달 삭제 함수
     const removeHandler = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -35,7 +37,7 @@ const Modal = ({
                 width={width}
                 height={height}
             >
-                <Cancel onClick={removeHandler}/>
+                {cancelButton && <Cancel onClick={removeHandler}/>}
                 {children}
             </DialogBox>
             <Backdrop
@@ -45,6 +47,10 @@ const Modal = ({
     );
 }
 
+Modal.defaultProps = {
+    cancelButton: true,
+};
+
 const ModalContainer = styled.div`
   width: 100vw;
   height: 100vh;
@@ -52,7 +58,7 @@ const ModalContainer = styled.div`
   align-items: center;
   justify-content: center;
   position: fixed;
-  z-index:100
+  z-index:100;
 `;
 
 const DialogBox = styled.dialog<{ width: number, height: number }>`
@@ -62,7 +68,7 @@ const DialogBox = styled.dialog<{ width: number, height: number }>`
   flex-direction: column;
   align-items: center;
   border: none;
-  border-radius: 3px;
+  border-radius: 10px;
   box-sizing: border-box;
   background-color: white;
   z-index: 102;

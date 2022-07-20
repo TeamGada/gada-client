@@ -1,6 +1,6 @@
-import Modal from 'components/Modal';
 import React, { FC, useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
+import Modal from 'components/Modal';
 import { RootState } from 'store/modules';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeOpenState, changeModalName } from 'store/modules/modal';
@@ -70,93 +70,95 @@ const PlanDetailModal: FC = () => {
     };
 
     return (
-        <ModalContainer>
-            <DialogBox width={650} height={750}>
-                <PlaceDetailThumbnail
-                    src={SelectedDetailPlace?.imgUrl ?? jeju}
-                />
-                <PlaceDetailContents>
-                    <PlaceDetailTitle>
-                        <p className="title">{SelectedDetailPlace?.name}</p>
-                        <p className="subtitle">
-                            {SelectedDetailPlace?.address}
-                        </p>
-                    </PlaceDetailTitle>
-                    <PlaceDetailMemo>
-                        <p className="head">
-                            <PencilIcon
-                                color={theme.PRIMARY}
-                                width={20}
-                                height={20}
-                            />
-                            <p>메모하기</p>
-                        </p>
-                        <textarea
-                            name="description"
-                            value={details.description}
-                            onChange={handleChange}
+        <Modal
+        width={500}
+        height={770}
+        >
+            <PlaceDetailThumbnail
+                src={SelectedDetailPlace?.imgUrl ?? jeju}
+            />
+            <PlaceDetailContents>
+                <PlaceDetailTitle>
+                    <p className="title">{SelectedDetailPlace?.name}</p>
+                    <p className="subtitle">
+                        {SelectedDetailPlace?.address}
+                    </p>
+                </PlaceDetailTitle>
+                <PlaceDetailMemo>
+                    <MemoHeader className="head">
+                        <PencilIcon
+                            color="#666"
+                            width={20}
+                            height={20}
                         />
-                    </PlaceDetailMemo>
-                    <PlaceDetailTime>
-                        <p className="head">
-                            <ClockIcon
-                                color={theme.PRIMARY}
-                                width={20}
-                                height={20}
-                            />
-                            <p>시간</p>
-                        </p>
-                        <input
-                            type="text"
-                            name="time"
-                            value={details.time}
-                            onChange={handleChange}
+                        <p>메모하기</p>
+                    </MemoHeader>
+                    <textarea
+                        name="description"
+                        value={details.description}
+                        onChange={handleChange}
+                    />
+                </PlaceDetailMemo>
+                <PlaceDetailTime>
+                    <MemoHeader className="head">
+                        <ClockIcon
+                            color="#666"
+                            width={22}
+                            height={22}
                         />
-                    </PlaceDetailTime>
-                    <PlaceDetailCost>
-                        <p className="head">
-                            <WonIcon
-                                color={theme.PRIMARY}
-                                width={20}
-                                height={20}
-                            />
-                            <p>바용</p>
-                        </p>
-                        <input
-                            type="text"
-                            name="cost"
-                            value={details.cost}
-                            onChange={handleChange}
+                        <p>시간</p>
+                    </MemoHeader>
+                    <Input
+                        type="text"
+                        name="time"
+                        value={details.time}
+                        onChange={handleChange}
+                    />
+                </PlaceDetailTime>
+                <PlaceDetailCost>
+                    <MemoHeader className="head">
+                        <WonIcon
+                            color="#666"
+                            width={20}
+                            height={20}
                         />
-                    </PlaceDetailCost>
-                </PlaceDetailContents>
-                <SubmitButton 
-                width={300} 
-                height={56} 
-                fontSize={20}
-                onClick={removeHandler}>
-                    메모하기
-                </SubmitButton>
-            </DialogBox>
-            <Backdrop onClick={removeHandler} />
-        </ModalContainer>
+                        <p>비용</p>
+                    </MemoHeader>
+                    <Input
+                        type="text"
+                        name="cost"
+                        value={details.cost}
+                        onChange={handleChange}
+                    />
+                </PlaceDetailCost>
+            </PlaceDetailContents>
+            <SubmitButton 
+            width={250} 
+            height={50} 
+            fontSize={18}
+            onClick={removeHandler}>
+                메모하기
+            </SubmitButton>
+        </Modal>
     );
 };
 const PlaceDetailCost = styled.div`
-    margin-bottom: 60px;
+    margin-bottom: 50px;
 `;
-const PlaceDetailTime = styled.div``;
+const PlaceDetailTime = styled.div`
+    margin: 20px 0;
+`;
 const PlaceDetailContents = styled.div`
-    width: calc(100% - 30px);
+    width: calc(100% - 100px);
     .head {
         margin: 10px 0 5px 0;
         > p {
             font-family: 'Noto Sans KR';
             font-style: normal;
             font-weight: 700;
-            font-size: 20px;
+            font-size: 18px;
             line-height: 29px;
-            color: ${({ theme }) => theme.PRIMARY};
+            color: #666;
             display: inline;
             margin: 0 10px;
         }
@@ -164,30 +166,40 @@ const PlaceDetailContents = styled.div`
 `;
 
 const PlaceDetailThumbnail = styled.img`
-    width: 100%;
-    height: 210px;
-    border-radius: 10px 10px 0 0;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
     object-fit: cover;
+    margin-top: 30px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.2);
 `;
 const PlaceDetailTitle = styled.div`
     height: 72px;
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
 
     .title {
-        margin: auto 10px;
-        font-weight: 900;
-        font-size: 25px;
-        line-height: 30px;
+        font-weight: bold;
+        font-size: 20px;
+        color: #444;
     }
     .subtitle {
-        margin: auto 0;
         font-weight: 400;
-        font-size: 20px;
-        line-height: 24px;
-        color: #969696;
+        font-size: 17px;
+        color: #666;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
     border-bottom: 1px solid #ababab;
 `;
+
+const MemoHeader = styled.div`
+    display: flex;
+    align-items: center;
+`
 
 const PlaceDetailMemo = styled.div`
     margin-top: 30px;
@@ -196,39 +208,28 @@ const PlaceDetailMemo = styled.div`
         height: 110px;
         border-radius: 5px;
         border: 0px;
-        padding 10px;
+        padding 20px;
         resize: none;
         box-sizing: border-box;
-        box-shadow:inset 0 0 5px #333;
+        box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.1);
         outline: none;
+        font-size: 14px;
+        color: #666;
     }
 `;
 
-const ModalContainer = styled.div`
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    z-index: 100;
-`;
+const Input = styled.input`
+    :focus {
+        outline: none;
+    }
 
-const DialogBox = styled.dialog<{ width: number; height: number }>`
-    width: ${({ width }) => width}px;
-    height: ${({ height }) => height}px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 0px;
-    border-radius: 3px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    box-sizing: border-box;
-    background-color: white;
-    padding: 0px;
-    z-index: 102;
-`;
+    height: 35px;
+    font-size: 14px;
+    border: none;
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.1);
+    padding: 0 20px;
+    color: #666;
+`
 
 const Backdrop = styled.div`
     width: 100vw;

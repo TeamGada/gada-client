@@ -13,16 +13,17 @@ import {
 import jejuImg from 'images/jeju.jpg';
 import { Place } from 'store/modules/plan';
 import { CancelDetailIcon } from 'components/icons';
-import { deleteSelectedPlaces } from 'store/modules/plan/search';
 
 const placeOptionListSelector = (state: RootState) =>
     state.plan.placeOptionList;
 const grabPlanIdSelector = (state: RootState) => state.plan.grabPlanId;
+const shareModeSelector = (state: RootState) => state.plan.shareMode;
 
 const SelectedOption: FC = () => {
     const dispatch = useDispatch();
     const placeOptionList = useSelector(placeOptionListSelector);
     const grabPlanId = useSelector(grabPlanIdSelector);
+    const shareMode = useSelector(shareModeSelector);
     const enterCnt = useRef(0);
     const droppedRef = useRef<HTMLElement | null>(null);
     const [isDrop, setIsDrop] = useState(false);
@@ -95,6 +96,15 @@ const SelectedOption: FC = () => {
             onDrop={onDropContainer}
             onDragOver={(e) => e.preventDefault()}
         >
+            <DragInfo
+            shareMode={shareMode}>
+                <Message
+                shareMode={shareMode}>
+                    { shareMode ? 
+                    "공유한 계획은 수정할 수 없습니다!" :
+                    "장소를 드레그해서 일정에 추가해보세요!" }
+                </Message>
+            </DragInfo>
             <ReactSortable
                 className="sortable-container"
                 animation={150}
@@ -168,34 +178,51 @@ const SelectedOption: FC = () => {
         </Container>
     );
 };
-// {/* <SlickSlider
-//                 width={970}
-//                 speed={450}
-//                 slidesToShow={9}
-//                 slidesToScroll={3}
-//                 arrowPadding={40}
-//                 arrowSize={20}
-//                 itemCursor="default"
-//                 boxShadow
-//             >
-//                 {userPlaces.map((place: SelectedPlace) => (
-//                     <PlaceCard key={place.id}>
-//                         <button
-//                             type="button"
-//                             onClick={() =>
-//                                 dispatch(deleteSelectedPlaces(place.id))
-//                             }
-//                         >
-//                             <span>
-//                                 <CancelIcon width="15px" />
-//                             </span>
-//                         </button>
-//                         <img src={place.imgUrl} alt={place.name} />
-//                         <p>{place.name}</p>
-//                     </PlaceCard>
-//                 ))}
-//             </SlickSlider> */}
+
+const DragInfo = styled.div<{ shareMode : boolean }>`
+    position: absolute;
+    top: -54px;
+    right: 300px;
+    width: 310px;
+    height: 40px;
+    background-color: ${({ shareMode }) => (
+        shareMode ? "#FFE4E4" : "#E4F0FF"
+    )};
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: -10;
+
+    &:after {
+        content: '';
+        height: 0;
+        width: 0;
+        position: absolute;
+        top: 100%;
+        right: 140px;
+        border: 12px solid transparent;
+        border-top-width: 0;
+        border-bottom-color: ${({ shareMode }) => (
+            shareMode ? "#FFE4E4" : "#E4F0FF"
+        )};
+        transform: rotate(180deg);
+    }
+`
+
+const Message = styled.p<{ shareMode: boolean }>`
+    color: ${({ shareMode }) => (
+        shareMode ? "#FA6565" : "#60A5F8"
+    )};
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 1px;
+`
+
 const Container = styled.div`
+    position: relative;
+    background-color: white;
+
     & > .sortable-container {
         width: 100%;
         height: 100px;
@@ -204,7 +231,7 @@ const Container = styled.div`
         padding: 8px 5px;
         display: flex;
         align-items: center;
-        overflow-y: hidden;
+        overflow-y: hidden;        
 
         &::-webkit-scrollbar {
             height: 10px;

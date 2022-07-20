@@ -20,8 +20,10 @@ import UnlikeIcon from './UnLikeIcon';
 import ErrorIcon from './ErrorIcon';
 import SpeechIcon from './SpeechIcon';
 import CancelDetailIcon from './CancelDetailIcon';
+import AlertIcon from './AlertIcon';
 
 export {
+    AlertIcon,
     CancelDetailIcon,
     UnlikeIcon,
     LikeIcon,

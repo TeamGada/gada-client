@@ -1,23 +1,13 @@
 import React, { FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { PlusIcon } from 'components/icons';
-import { RootState } from 'store/modules'
-import { changeOpenState, changeModalName } from 'store/modules/modal';
-
-const ModalSelector = (state: RootState) => state.modal
+import useModal from 'hooks/useModal';
 
 const AddCard : FC = () => {
-    const { modalIsOpen } = useSelector(ModalSelector);
-    const dispatch = useDispatch();
+    const newPlanClickHandler = useModal("NewPlanModal");
     
-    const handleClick = () => {
-        dispatch(changeModalName("NewPlanModal"));
-        dispatch(changeOpenState(!modalIsOpen));
-    }
-
     return (
-        <AddPlanCard onClick={handleClick}>
+        <AddPlanCard onClick={newPlanClickHandler}>
             <AddButtonHelper />
             <AddButton>
                 <PlusIcon style={plusIconStyle}/>

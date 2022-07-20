@@ -1,9 +1,5 @@
-import {
-    createAsyncThunk,
-    createSlice,
-    nanoid,
-    PayloadAction,
-} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { nanoid } from 'nanoid';
 import { pickByKeyword, searchByKeyword } from 'utils/searchScenario';
 import { Position, SearchedPlaceInfo, SelectedPlace } from '.';
 // Types

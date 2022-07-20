@@ -1,8 +1,7 @@
 import { ClockIcon, PencilIcon, WonIcon } from 'components/icons';
 import React, { FC } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'store/modules';
-import { changeModalName, changeOpenState } from 'store/modules/modal';
+import { useDispatch } from 'react-redux';
+import useModal from 'hooks/useModal';
 import { setClickPlaceDetailId } from 'store/modules/plan/plan';
 import styled from 'styled-components';
 
@@ -15,8 +14,6 @@ interface IProps {
     dataId: string;
 }
 
-const ModalSelector = (state: RootState) => state.modal;
-
 const PlaceBox: FC<IProps> = ({
     key,
     focusRef,
@@ -25,7 +22,7 @@ const PlaceBox: FC<IProps> = ({
     location,
     dataId,
 }) => {
-    const { modalIsOpen } = useSelector(ModalSelector);
+    const openModal = useModal("PlanDetailModal");
     const dispatch = useDispatch();
     return (
         <Container
@@ -40,8 +37,7 @@ const PlaceBox: FC<IProps> = ({
             </ItemsTexts>
             <ItemsToolBtn
                 onClick={() => {
-                    dispatch(changeModalName('PlanDetailModal'));
-                    dispatch(changeOpenState(!modalIsOpen));
+                    openModal();
                     dispatch(setClickPlaceDetailId(dataId));
                 }}
             >
@@ -101,6 +97,7 @@ const ItemsToolBtn = styled.button`
     justify-content: center;
     margin-left: auto;
     border-radius: 2px 13px 13px 2px;
+    cursor: pointer;
 
     transition: background 0.1s linear;
 

@@ -2,6 +2,7 @@
     "name": "gg",
     "version": "0.1.0",
     "private": true,
+    "homepage":"http://sw_track.kdt-gitlab.elice.io/class_02_seoul/web_project_2/team5/gada-client",
     "dependencies": {
         "@reduxjs/toolkit": "^1.8.3",
         "@testing-library/jest-dom": "^5.16.4",

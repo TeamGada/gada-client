@@ -1,5 +1,4 @@
 import { createGlobalStyle } from 'styled-components'
-import Jalnan from 'styles/fonts/Jalnand.woff';
 import NotoSansBlack from 'styles/fonts/NotoSansKR-Black.woff';
 import NotoSansBold from 'styles/fonts/NotoSansKR-Bold.woff';
 import NotoSansLight from 'styles/fonts/NotoSansKR-Light.woff';
@@ -9,37 +8,32 @@ import NotoSansThin from 'styles/fonts/NotoSansKR-Thin.woff';
 
 export default createGlobalStyle`
     @font-face {
-        font-family: "Jalnan";
-        src: local("Jalnan"), url(${Jalnan}) format('woff');
-    }
-
-    @font-face {
         font-family: 'NotoSansBlack';
-        src: local("NotoSansBlack"), url(${NotoSansBlack}) format('woff);
+        src: local("NotoSansBlack"), url(${NotoSansBlack}) format('woff');
     }
 
     @font-face {
         font-family: 'NotoSansBold';
-        src: local("NotoSansBold"), url(${NotoSansBold}) format('woff);
+        src: local("NotoSansBold"), url(${NotoSansBold}) format('woff');
     }
 
     @font-face {
         font-family: 'NotoSansLight';
-        src: local("NotoSansLight"), url(${NotoSansLight}) format('woff);
+        src: local("NotoSansLight"), url(${NotoSansLight}) format('woff');
     }
 
     @font-face {
         font-family: 'NotoSansMedium';
-        src: local("NotoSansMedium"), url(${NotoSansMedium}) format('woff);
+        src: local("NotoSansMedium"), url(${NotoSansMedium}) format('woff');
     }
 
     @font-face {
         font-family: 'NotoSansRegular';
-        src: local("NotoSansRegular"), url(${NotoSansRegular}) format('woff);
+        src: local("NotoSansRegular"), url(${NotoSansRegular}) format('woff');
     }
 
     @font-face {
         font-family: 'NotoSansThin';
-        src: local("NotoSansThin"), url(${NotoSansThin}) format('woff);
+        src: local("NotoSansThin"), url(${NotoSansThin}) format('woff');
     }
 `

@@ -2,7 +2,7 @@ import React, { SVGProps } from 'react';
 
 const AddLocationIcon = ({
     height = '27px',
-    width = '234px',
+    width = '23px',
     color = '#3D95FF',
     ...props
 }: SVGProps<SVGSVGElement>) => (

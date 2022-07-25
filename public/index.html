@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon2.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta
@@ -24,11 +24,18 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <style>
+      @font-face {
+        font-family: 'Jalnan';
+        src: local('Jalnan'), url(%PUBLIC_URL%/Jalnan.woff) format('woff');
+      }
+    </style>
+    <link rel="preload" href="%PUBLIC_URL%/Jalnan.woff" as="font" type="font/woff" crossorigin>
     <script
       type="text/javascript"
       src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d4e5a4965260edef8bc605093cd70672&libraries=services,clusterer"
     ></script>
-    <title>React App</title>
+    <title>여행가다</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

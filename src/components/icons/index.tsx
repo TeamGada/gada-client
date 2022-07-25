@@ -13,8 +13,20 @@ import RightIcon from './RightIcon';
 import SearchIcon from './SearchIcon';
 import UnlockIcon from './UnlockIcon';
 import WonIcon from './WonIcon';
+import GoogleIcon from './GoogleIcon';
+import ResetIcon from './ResetIcon';
+import LikeIcon from './LikeIcon';
+import UnlikeIcon from './UnLikeIcon';
+import ErrorIcon from './ErrorIcon';
+import SpeechIcon from './SpeechIcon';
+import CancelDetailIcon from './CancelDetailIcon';
+import AlertIcon from './AlertIcon';
 
-export { 
+export {
+    AlertIcon,
+    CancelDetailIcon,
+    UnlikeIcon,
+    LikeIcon,
     AddLocationIcon,
     CancelIcon,
     ChatIcon,
@@ -29,5 +41,9 @@ export {
     RightIcon,
     SearchIcon,
     UnlockIcon,
-    WonIcon
-} 
+    WonIcon,
+    GoogleIcon,
+    ResetIcon,
+    ErrorIcon,
+    SpeechIcon,
+};

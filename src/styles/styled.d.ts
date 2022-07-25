@@ -5,5 +5,6 @@ declare module 'styled-components' {
         PRIMARY: string;
         PRIMARY_LIGHT: string;
         LIGHT_GRAY: string;
+        USER_PLAN_COLOR: string[];
     }
 }

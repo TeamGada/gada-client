@@ -7,12 +7,19 @@ import { getSharedPlanInfoById } from 'store/modules/plan/share';
 import styled from 'styled-components';
 import getAuthHeader from 'utils/getAuthHeader';
 import useConfirmModal from 'hooks/useConfirmModal';
+import PageInfo from 'components/PageInfo';
 
 const confirmSharePayload = {
     width: 400,
     height: 300,
     message: `계획을 내 계획으로 가져오시겠습니까? 가져온 계획은 '마이페이지 > 내 계획'에서 확인 가능합니다.`,
 };
+
+const titles = {
+    mainTitle: '계획 가져오기',
+    subTitle1: '다른 사람의 계획이 마음에 드시나요?',
+    subTitle2: '계획 가져오기 버튼을 누르면 내 계획에 추가됩니다!'
+}
 
 const Share = () => {
     const dispatch = useDispatch<any>();
@@ -43,15 +50,8 @@ const Share = () => {
 
     return (
         <>
-            <ShareHeader>
-                <TitleContainer>
-                    <MainTitle>게시판</MainTitle>
-                    <SubTitle1>여행 계획을 고민중이신가요?</SubTitle1>
-                    <SubTitle2>
-                        다른 사람의 계획을 내 계획에 추가해보세요!
-                    </SubTitle2>
-                </TitleContainer>
-            </ShareHeader>
+            <PageInfo 
+            titles={titles}/>
             <ShareBody>
                 <ShareContents>
                     <SharedPlan />
@@ -67,38 +67,6 @@ const Share = () => {
 };
 
 export default Share;
-
-const ShareHeader = styled.section`
-    min-width: 1287px;
-    width: 100%;
-    background-color: #e4f0ff;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 60px 0;
-`;
-const TitleContainer = styled.div`
-    width: 1287px;
-    margin: 0 auto;
-    color: #333;
-`;
-const MainTitle = styled.h1`
-    font-size: 30px;
-    font-weight: bold;
-    letter-spacing: 1px;
-`;
-
-const Subtitle = styled.h2`
-    font-size: 22px;
-    font-weight: 400;
-    letter-spacing: 1.5px;
-`;
-const SubTitle1 = styled(Subtitle)`
-    margin-top: 35px;
-    margin-bottom: 15px;
-`;
-const SubTitle2 = styled(Subtitle)``;
 
 const ShareBody = styled.main`
     min-width: 1287px;

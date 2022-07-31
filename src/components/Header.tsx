@@ -1,4 +1,4 @@
-import React, { FC, useRef, useEffect } from 'react';
+import React, { FC } from 'react';
 import styled, { css } from 'styled-components';
 import { PlaneIcon } from 'components/icons';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
@@ -10,26 +10,11 @@ import { ToastContainer } from 'react-toastify';
 
 const Header: FC = () => {
     const navigate = useNavigate();
-    const myPageRef = useRef<any>(null);
-    const boardRef = useRef<any>(null);
-    const [myPageIsOpen, setmyPageIsOpen] = useDetectClose(myPageRef, false);
-    const [boardIsOpen, setBoardIsOpen] = useDetectClose(boardRef, false);
+    const [myPageIsOpen, myPageRef, myPageHandler] = useDetectClose(false);
+    const [boardIsOpen, boardRef, boardHandler] = useDetectClose(false);
     const [cookies, setCookie, removeCookie] = useCookies(['accessToken']);
     const navigateHandler = () => {
         navigate('/main');
-    };
-
-    const myPageHandler = () => {
-        setmyPageIsOpen(!myPageIsOpen);
-        setBoardIsOpen(false);
-    };
-    const boardHandler = () => {
-        setBoardIsOpen(!boardIsOpen);
-        setmyPageIsOpen(false);
-    };
-    const removeMenu = () => {
-        setBoardIsOpen(false);
-        setmyPageIsOpen(false);
     };
 
     const logoutClickHandler = () => {
@@ -74,8 +59,8 @@ const Header: FC = () => {
                         <DropdownButton onClick={myPageHandler} ref={myPageRef}>
                             마이페이지
                         </DropdownButton>
-                        <Nav myPageIsOpen={myPageIsOpen}>
-                            <Ul onClick={removeMenu} onKeyDown={removeMenu}>
+                        <Nav isDropped={myPageIsOpen}>
+                            <Ul>
                                 <Li>
                                     <LinkWrapper to="/profile">
                                         프로필
@@ -93,8 +78,8 @@ const Header: FC = () => {
                         <DropdownButton onClick={boardHandler} ref={boardRef}>
                             공유
                         </DropdownButton>
-                        <Nav myPageIsOpen={boardIsOpen}>
-                            <Ul onClick={removeMenu} onKeyDown={removeMenu}>
+                        <Nav isDropped={boardIsOpen}>
+                            <Ul>
                                 <Li>
                                     <LinkWrapper to="/board?type=all">
                                         전체 공유
@@ -108,10 +93,7 @@ const Header: FC = () => {
                             </Ul>
                         </Nav>
                     </BoardContainer>
-                    <DropdownContainer
-                        onClick={removeMenu}
-                        onKeyDown={removeMenu}
-                    >
+                    <DropdownContainer>
                         <Logout onClick={logoutClickHandler}>로그아웃</Logout>
                     </DropdownContainer>
                 </Menu>
@@ -151,38 +133,37 @@ const Menu = styled.div`
     margin-left: auto;
     margin-right: 50px;
     display: flex;
+    justify-content: space-around;
+    align-items: center;
     color: white;
     font-size: 19px;
+    width: 330px;
 `;
 
 const DropdownContainer = styled.div`
     position: relative;
-    width: 100px;
     text-align: center;
 `;
 
 const MyPageContainer = styled(DropdownContainer)``;
-
-const BoardContainer = styled(DropdownContainer)`
-    margin-left: 10px;
-`;
+const BoardContainer = styled(DropdownContainer)``;
 
 const DropdownButton = styled.div`
     cursor: pointer;
 `;
 
-const Nav = styled.nav<{ myPageIsOpen: any }>`
+const Nav = styled.nav<{ isDropped: boolean }>`
     background: #60a5f8;
     position: absolute;
     top: 52px;
-    left: 0;
+    left: 50%;
     width: 100px;
     text-align: center;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
     border-radius: 3px;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-20px);
+    transform: translate(-50%,-20px);
     transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
     z-index: 9;
 
@@ -191,41 +172,43 @@ const Nav = styled.nav<{ myPageIsOpen: any }>`
         height: 0;
         width: 0;
         position: absolute;
-        top: -10px;
-        right: 37px;
+        top: -3px;
+        left: 50%;
+        transform: translate(-50%, -50%);
         border: 12px solid transparent;
         border-top-width: 0;
         border-bottom-color: #60a5f8;
     }
 
-    ${({ myPageIsOpen }) =>
-        myPageIsOpen &&
+    ${({ isDropped }) =>
+        isDropped &&
         css`
             opacity: 1;
             visibility: visible;
-            transform: translateY(0);
+            transform: translate(-50%, 0);
+            left: 50%;
         `};
 `;
 
 const Ul = styled.ul`
-    & > li:last-of-type {
-        margin-bottom: 13px;
-    }
+    & > li { margin-bottom: 15px; }
+
+    & > li:first-of-type { margin-top: 15px; }
+
+    list-style-type : none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 `;
 const Li = styled.li``;
 
 const LinkWrapper = styled(Link)`
     font-size: 16px;
-    margin-top: 13px;
     display: block;
     text-decoration: none;
-    color: white;
-`;
-
-const LinkNoDropDown = styled(Link)`
-    display: block;
-    text-decoration: none;
-    font-size: 19px;
     color: white;
 `;
 

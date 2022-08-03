@@ -265,6 +265,7 @@ const UserName = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
     width: 100px;
+    height: 20px;
 `;
 const LikeCount = styled.div`
     margin-right: 7px;

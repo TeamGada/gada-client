@@ -12,7 +12,7 @@ const selectedPlaces = (state: RootState) => state.search.selectedPlaces;
 const PlanPlaceSelected = () => {
     const dispatch = useDispatch();
     const userPlaces = useSelector(selectedPlaces);
-
+    // userPlaces, DeleteFunction
     return (
         <SelectedContainer>
             <SlickSlider

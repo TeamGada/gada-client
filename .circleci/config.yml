@@ -1,26 +1,57 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/2.0/configuration-reference
+# This config is equivalent to both the '.circleci/extended/orb-free.yml' and the base '.circleci/config.yml'
 version: 2.1
 
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
-jobs:
-  say-hello:
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
-    docker:
-      - image: cimg/base:stable
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
-    steps:
-      - checkout
-      - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
+# Orbs are reusable packages of CircleCI configuration that you may share across projects, enabling you to create encapsulated, parameterized commands, jobs, and executors that can be used across multiple projects.
+# See: https://circleci.com/docs/2.0/orb-intro/
+orbs:
+  aws-s3: circleci/aws-s3@3.0.0
+  aws-code-deploy: circleci/aws-code-deploy@2.0.0
 
 # Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+jobs:
+  compression:
+    docker:
+      - image: cimg/base:stable
+
+    steps:
+      - checkout  
+      - run:
+          name: 소스 압축
+          command: |
+            zip front.zip -r ./* 	#현재 폴더의 하위내용까지 포함하여 back.zip파일 생성
+            mkdir -p deploy	
+            mv front.zip deploy/front.zip
+      - persist_to_workspace:
+          root: .
+          paths:
+            - deploy
+
+  deploy:
+    docker:
+      - image: cimg/base:stable
+
+    steps:
+      - attach_workspace:
+          at: .
+
+      - aws-s3/copy:
+          from: deploy/*
+          to: s3://gada-s3 
+          aws-region: AWS_DEFAULT_REGION
+
+      - aws-code-deploy/deploy-bundle:
+          application-name: GadaServer 
+          deployment-group: GadaServer 
+          deployment-config: CodeDeployDefault.AllAtOnce 
+          bundle-bucket: gada-s3
+          bundle-type: zip
+          bundle-key: back
+ 
 workflows:
-  say-hello-workflow:
+  compression-deploy:
     jobs:
-      - say-hello
+      - compression
+      - deploy:
+          context: distribution 
+          requires:
+            - compression

@@ -45,7 +45,7 @@ jobs:
           deployment-config: CodeDeployDefault.AllAtOnce 
           bundle-bucket: gada-s3
           bundle-type: zip
-          bundle-key: back
+          bundle-key: front
  
 workflows:
   compression-deploy:

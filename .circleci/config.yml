@@ -18,7 +18,7 @@ jobs:
       - run:
           name: 소스 압축
           command: |
-            zip front.zip -r ./* 	#현재 폴더의 하위내용까지 포함하여 back.zip파일 생성
+            zip front.zip -r ./* 	#현재 폴더의 하위내용까지 포함하여 front.zip파일 생성
             mkdir -p deploy	
             mv front.zip deploy/front.zip
       - persist_to_workspace:
